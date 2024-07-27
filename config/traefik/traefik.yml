@@ -8,7 +8,7 @@ entryPoints:
   websecure:
     address: :443
 
-certificateResolvers:
+certificatesResolvers:
   myresolver:
     acme:
       dnschallenge:

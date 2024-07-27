@@ -23,5 +23,23 @@ services:
     networks:
       - proxy
 
+  vault:
+    image: vaultwarden/server:latest
+    container_name: vault
+    volumes:
+      - vault_data:/data
+    environment:
+      - DOMAIN=https://vault.${BASE_HOST}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)
+      - traefik.http.routers.vault.entrypoints=websecure
+      - traefik.http.routers.vault.tls.certresolver=myresolver
+    networks:
+      - proxy
+
 networks:
   proxy:
+
+volumes:
+  vault_data:

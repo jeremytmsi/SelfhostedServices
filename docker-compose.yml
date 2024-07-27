@@ -189,6 +189,9 @@ services:
     container_name: node
     networks:
       - proxy
+    volumes:
+      - /:/host:ro,rslave
+    command: --path.rootfs=/host
     labels:
       - traefik.enable=false
 

@@ -38,6 +38,127 @@ services:
     networks:
       - proxy
 
+  jackett:
+    image: linuxserver/jackett:latest
+    container_name: jackett
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jackett.rule=Host(`jackett.${BASE_HOST}`)
+      - traefik.http.routers.jackett.entrypoints=websecure
+      - traefik.http.routers.jackett.tls.certresolver=myresolver
+    volumes:
+      - ./config/jackett:/config/Jackett
+    networks:
+      - proxy
+
+  qbittorrent:
+    image: ghcr.io/hotio/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - TZ=Europe/Paris
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`torrent.${BASE_HOST}`)
+      - traefik.http.routers.qbittorrent.entrypoints=websecure
+      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
+    volumes:
+      - ~/Data:/data
+      - ./config/qbittorrent:/config
+    networks:
+      - proxy
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    environment:
+      - TZ=Europe/Paris
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.rule=Host(`films.${BASE_HOST}`)
+      - traefik.http.routers.radarr.entrypoints=websecure
+      - traefik.http.routers.radarr.tls.certresolver=myresolver
+    volumes:
+      - ~/Data:/data
+      - ./config/radarr:/config
+    networks:
+      - proxy
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - TZ=Europe/Paris
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`series.${BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
+    volumes:
+      - ~/Data:/data
+      - ./config/sonarr:/config
+    networks:
+      - proxy
+
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    environment:
+      - TZ=Europe/Paris
+      - PUID=1000
+      - PGID=1000
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.rule=Host(`media.${BASE_HOST}`)
+      - traefik.http.routers.jellyfin.entrypoints=websecure
+      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
+    volumes:
+      - ~/Data:/data
+      - ./config/jellyfin:/config
+    networks:
+      - proxy
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr
+    container_name: jellyseerr
+    environment:
+      - TZ=Europe/Paris
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.rule=Host(`mediarequest.${BASE_HOST}`)
+      - traefik.http.routers.jellyseerr.entrypoints=websecure
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
+    volumes:
+      - ./config/jellyseerr:/app/config
+    networks:
+      - proxy
+  
+  bazarr:
+    image: linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./config/bazarr:/config
+      - ~/Data:/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bazarr.rule=Host(`subtitles.${BASE_HOST}`)
+      - traefik.http.routers.bazarr.entrypoints=websecure
+      - traefik.http.routers.bazarr.tls.certresolver=myresolver
+    networks:
+      - proxy
+
 networks:
   proxy:
 

@@ -1,0 +1,42 @@
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    environment:
+      - BASE_HOST=${BASE_HOST}
+    volumes:
+      - ./config/grafana/prometheus.yml:/etc/grafana/provisioning/datasources/prometheus.yml
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`monitor.${BASE_HOST}`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=myresolver
+    networks:
+      - proxy
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    labels:
+      - traefik.enable=false
+    networks:
+      - proxy
+
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node
+    networks:
+      - proxy
+    volumes:
+      - /:/host:ro,rslave
+    command: --path.rootfs=/host
+    labels:
+      - traefik.enable=false
+
+networks:
+  proxy:
+
+volumes:
+  vault_data:

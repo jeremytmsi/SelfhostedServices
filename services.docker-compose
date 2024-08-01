@@ -159,6 +159,16 @@ services:
     networks:
       - proxy
 
+  flaresolverr:
+    image: flaresolverr/flaresolverr
+    container_name: flaresolverr
+    environment:
+      - TZ=Europe/Paris
+    labels:
+      - traefik.enable=false
+    networks:
+      - proxy
+
 networks:
   proxy:
 

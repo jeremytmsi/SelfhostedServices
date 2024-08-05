@@ -54,23 +54,20 @@ services:
     networks:
       - proxy
 
-  qbittorrent:
-    image: ghcr.io/hotio/qbittorrent
-    container_name: qbittorrent
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
     restart: unless-stopped
     environment:
       - TZ=Europe/Paris
-      - PUID=1000
-      - PGID=1000
-      - UMASK=002
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.qbittorrent.rule=Host(`torrent.${BASE_HOST}`)
-      - traefik.http.routers.qbittorrent.entrypoints=websecure
-      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
     volumes:
       - ~/Data:/data
-      - ./config/qbittorrent:/config
+      - ./config/transmission:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.transmission.rule=Host(`torrent.${BASE_HOST}`)
+      - traefik.http.routers.transmission.entrypoints=websecure
+      - traefik.http.routers.transmission.tls.certresolver=myresolver
     networks:
       - proxy
 
@@ -148,7 +145,7 @@ services:
       - ./config/jellyseerr:/app/config
     networks:
       - proxy
-  
+
   bazarr:
     image: linuxserver/bazarr:latest
     container_name: bazarr
@@ -181,6 +178,7 @@ services:
 
 networks:
   proxy:
+
 
 volumes:
   vault_data:

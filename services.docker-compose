@@ -2,6 +2,7 @@ services:
   traefik:
     image: traefik:latest
     container_name: traefik
+    restart: unless-stopped
     ports:
       - 8080:8080
       - 80:80
@@ -26,6 +27,7 @@ services:
   vault:
     image: vaultwarden/server:latest
     container_name: vault
+    restart: unless-stopped
     volumes:
       - vault_data:/data
     environment:
@@ -41,6 +43,7 @@ services:
   jackett:
     image: linuxserver/jackett:latest
     container_name: jackett
+    restart: unless-stopped
     labels:
       - traefik.enable=true
       - traefik.http.routers.jackett.rule=Host(`jackett.${BASE_HOST}`)
@@ -54,6 +57,7 @@ services:
   qbittorrent:
     image: ghcr.io/hotio/qbittorrent
     container_name: qbittorrent
+    restart: unless-stopped
     environment:
       - TZ=Europe/Paris
       - PUID=1000
@@ -73,6 +77,7 @@ services:
   radarr:
     image: linuxserver/radarr
     container_name: radarr
+    restart: unless-stopped
     environment:
       - TZ=Europe/Paris
       - PUID=1000
@@ -92,6 +97,7 @@ services:
   sonarr:
     image: linuxserver/sonarr
     container_name: sonarr
+    restart: unless-stopped
     environment:
       - TZ=Europe/Paris
       - PUID=1000
@@ -111,6 +117,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
+    restart: unless-stopped
     environment:
       - TZ=Europe/Paris
       - PUID=1000
@@ -129,6 +136,7 @@ services:
   jellyseerr:
     image: fallenbagel/jellyseerr
     container_name: jellyseerr
+    restart: unless-stopped
     environment:
       - TZ=Europe/Paris
     labels:
@@ -144,6 +152,7 @@ services:
   bazarr:
     image: linuxserver/bazarr:latest
     container_name: bazarr
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
@@ -160,8 +169,9 @@ services:
       - proxy
 
   flaresolverr:
-    image: flaresolverr/flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:pr-1282
     container_name: flaresolverr
+    restart: unless-stopped
     environment:
       - TZ=Europe/Paris
     labels:

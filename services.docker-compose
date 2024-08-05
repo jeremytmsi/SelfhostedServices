@@ -60,6 +60,9 @@ services:
     restart: unless-stopped
     environment:
       - TZ=Europe/Paris
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
     volumes:
       - ~/Data:/data
       - ./config/transmission:/config

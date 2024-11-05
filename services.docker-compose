@@ -27,8 +27,24 @@ services:
     networks:
       - proxy
 
+  drive:
+    image: nextcloud
+    container_name: drive
+    volumes:
+      - drive_data:/var/www/html/data
+      - drive_config:/var/www/html/config
+      - drive_apps:/var/www/html/custom_apps
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.drive.rule=Host("drive.docker.localhost")
+    networks:
+      - proxy
+
 volumes:
   portainer_config:
+  drive_data:
+  drive_config:
+  drive_apps:
 
 networks:
   proxy:

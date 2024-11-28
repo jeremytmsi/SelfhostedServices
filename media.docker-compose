@@ -61,6 +61,7 @@ services:
       - TZ=Europe/Paris
     volumes:
       - /mnt/Data/Media/Films:/films
+      - /mnt/Data/Downloads/Films:/mnt/Downloads/Films
       - radarr_config:/config
     labels:
       - traefik.enable=true

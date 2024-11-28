@@ -1,0 +1,110 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    volumes:
+      - /mnt/Data/Media/Series:/mnt/Series
+      - /mnt/Data/Media/Films:/mnt/Films
+      - /mnt/Data/Media/Animes:/mnt/Animes
+      - jellyfin_config:/config
+    networks:
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.rule=Host(`media.jeremytomasi.fr`)
+
+  torrent:
+    image: lscr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Europe/Paris
+    volumes:
+      - /mnt/Data/Downloads/Series:/downloads/series
+      - /mnt/Data/Downloads/Animes:/downloads/animes
+      - /mnt/Data/Downloads/Films:/downloads/films
+      - torrent_config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`torrent.jeremytomasi.fr`)
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=9091
+    networks:
+      - proxy
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /mnt/Data/Media/Series:/series
+      - /mnt/Data/Downloads/Series:/mnt/Downloads/Series
+      - /mnt/Data/Media/Animes:/animes
+      - /mnt/Data/Downloads/Animes:/mnt/Downloads/Animes
+      - sonarr_config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`series.jeremytomasi.fr`)
+    networks:
+      - proxy
+
+
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /mnt/Data/Media/Films:/films
+      - radarr_config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.rule=Host(`films.jeremytomasi.fr`)
+    networks:
+      - proxy
+
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - prowlarr_config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.rule=Host(`indexers.jeremytomasi.fr`)
+    networks:
+      - proxy
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr
+    container_name: jellyseerr
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - jellyseerr_config:/app/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.rule=Host(`requests.jeremytomasi.fr`)
+    networks:
+      - proxy
+
+
+volumes:
+  jellyfin_config:
+  sonarr_config:
+  radarr_config:
+  prowlarr_config:
+  torrent_config:
+  jellyseerr_config:
+
+networks:
+  proxy:

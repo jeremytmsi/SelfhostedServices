@@ -12,7 +12,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.jeremytomasi.fr`)
     networks:
-      - proxy
+      - front
 
 networks:
-  proxy:
+  front:

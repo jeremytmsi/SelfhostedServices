@@ -8,7 +8,7 @@ services:
       - /mnt/Data/Media/Animes:/mnt/Animes
       - jellyfin_config:/config
     networks:
-      - proxy
+      - front
     labels:
       - traefik.enable=true
       - traefik.http.routers.jellyfin.rule=Host(`media.jeremytomasi.fr`)
@@ -27,10 +27,9 @@ services:
       - torrent_config:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.qbittorrent.rule=Host(`torrent.jeremytomasi.fr`)
-      - traefik.http.services.qbittorrent.loadbalancer.server.port=9091
+      - traefik.http.routers.transmission.rule=Host(`torrent.jeremytomasi.fr`)
     networks:
-      - proxy
+      - front
 
   sonarr:
     image: lscr.io/linuxserver/sonarr
@@ -49,7 +48,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.sonarr.rule=Host(`series.jeremytomasi.fr`)
     networks:
-      - proxy
+      - front
 
 
   radarr:
@@ -67,7 +66,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.radarr.rule=Host(`films.jeremytomasi.fr`)
     networks:
-      - proxy
+      - front
 
 
   prowlarr:
@@ -81,9 +80,11 @@ services:
       - prowlarr_config:/config
     labels:
       - traefik.enable=true
+      - traefik.docker.network=front
       - traefik.http.routers.prowlarr.rule=Host(`indexers.jeremytomasi.fr`)
     networks:
-      - proxy
+      - front
+      - backend
 
   jellyseerr:
     image: fallenbagel/jellyseerr
@@ -96,7 +97,15 @@ services:
       - traefik.enable=true
       - traefik.http.routers.jellyseerr.rule=Host(`requests.jeremytomasi.fr`)
     networks:
-      - proxy
+      - front
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr
+    container_name: flaresolverr
+    networks:
+      - backend
+    labels:
+      - traefik.enable=false
 
 
 volumes:
@@ -108,4 +117,5 @@ volumes:
   jellyseerr_config:
 
 networks:
-  proxy:
+  front:
+  backend:

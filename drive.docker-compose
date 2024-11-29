@@ -1,0 +1,19 @@
+services:
+  drive:
+    image: nextcloud
+    container_name: drive
+    volumes:
+      - nextcloud_config:/var/www/html/config
+      - nextcloud_data:/var/www/html/data
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nextcloud.rule=Host(`drive.jeremytomasi.fr`)
+    networks:
+      - front
+
+networks:
+  front:
+
+volumes:
+  nextcloud_config:
+  nextcloud_data:

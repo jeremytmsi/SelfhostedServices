@@ -17,7 +17,7 @@ services:
       - ./config/letsencrypt:/letsencrypt
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.jeremytomasi.fr`)
+      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`)
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.tls.certresolver=myresolver
     networks:
@@ -32,7 +32,7 @@ services:
       - DOMAIN=https://vault.jeremytomasi.fr
     labels:
       - traefik.enable=true
-      - traefik.http.routers.vault.rule=Host(`vault.jeremytomasi.fr`)
+      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)
       - traefik.http.routers.vault.entrypoints=websecure
       - traefik.http.routers.vault.tls.certresolver=myresolver
     networks:

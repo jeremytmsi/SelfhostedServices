@@ -11,7 +11,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyfin.rule=Host(`media.jeremytomasi.fr`)
+      - traefik.http.routers.jellyfin.rule=Host(`media.${BASE_HOST}`)
+      - traefik.http.routers.jellyfin.entrypoints=websecure
+      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
 
   torrent:
     image: lscr.io/linuxserver/transmission
@@ -27,7 +29,9 @@ services:
       - torrent_config:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.transmission.rule=Host(`torrent.jeremytomasi.fr`)
+      - traefik.http.routers.transmission.rule=Host(`torrent.${BASE_HOST}`)
+      - traefik.http.routers.transmission.entrypoints=websecure
+      - traefik.http.routers.transmission.tls.certresolver=myresolver
     networks:
       - front
 
@@ -46,7 +50,9 @@ services:
       - sonarr_config:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`series.jeremytomasi.fr`)
+      - traefik.http.routers.sonarr.rule=Host(`series.${BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
     networks:
       - front
 
@@ -64,7 +70,9 @@ services:
       - radarr_config:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.radarr.rule=Host(`films.jeremytomasi.fr`)
+      - traefik.http.routers.radarr.rule=Host(`films.${BASE_HOST}`)
+      - traefik.http.routers.radarr.entrypoints=websecure
+      - traefik.http.routers.radarr.tls.certresolver=myresolver
     networks:
       - front
 
@@ -80,7 +88,9 @@ services:
       - prowlarr_config:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prowlarr.rule=Host(`indexers.jeremytomasi.fr`)
+      - traefik.http.routers.prowlarr.rule=Host(`indexers.${BASE_HOST}`)
+      - traefik.http.routers.prowlarr.entrypoints=websecure
+      - traefik.http.routers.prowlarr.tls.certresolver=myresolver
     networks:
       - front
 
@@ -93,7 +103,9 @@ services:
       - jellyseerr_config:/app/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyseerr.rule=Host(`requests.jeremytomasi.fr`)
+      - traefik.http.routers.jellyseerr.rule=Host(`requests.${BASE_HOST}`)
+      - traefik.http.routers.jellyseerr.entrypoints=websecure
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
     networks:
       - front
 

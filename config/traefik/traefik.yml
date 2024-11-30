@@ -2,5 +2,17 @@ providers:
   docker:
     defaultRule: "Host(`{{ trimPrefix `/` .Name}}.docker.localhost`)"
 
+entryPoints:
+  websecure:
+    address: :443
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      dnschallenge:
+        provider: ovh
+      email: jeremy.tomasi.pro@gmail.com
+      storage: /letsencrypt/acme.json
+
 api:
   insecure: true

@@ -80,11 +80,9 @@ services:
       - prowlarr_config:/config
     labels:
       - traefik.enable=true
-      - traefik.docker.network=front
       - traefik.http.routers.prowlarr.rule=Host(`indexers.jeremytomasi.fr`)
     networks:
       - front
-      - backend
 
   jellyseerr:
     image: fallenbagel/jellyseerr
@@ -103,7 +101,7 @@ services:
     image: ghcr.io/flaresolverr/flaresolverr
     container_name: flaresolverr
     networks:
-      - backend
+      - front
     labels:
       - traefik.enable=false
 
@@ -118,4 +116,3 @@ volumes:
 
 networks:
   front:
-  backend:

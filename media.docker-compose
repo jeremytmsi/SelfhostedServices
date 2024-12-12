@@ -2,6 +2,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
+    hostname: media.jeremytomasi.fr
     volumes:
       - /mnt/Data/Media/Series:/mnt/Series
       - /mnt/Data/Media/Films:/mnt/Films
@@ -16,11 +17,11 @@ services:
       - traefik.http.routers.jellyfin.tls.certresolver=myresolver
 
   torrent:
-    image: lscr.io/linuxserver/transmission
-    container_name: transmission
+    image: lscr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
     environment:
-      - PUID=0
       - PGID=0
+      - PUID=0
       - TZ=Europe/Paris
     volumes:
       - /mnt/Data/Downloads/Series:/downloads/series
@@ -29,9 +30,10 @@ services:
       - torrent_config:/config
     labels:
       - traefik.enable=true
-      - traefik.http.routers.transmission.rule=Host(`torrent.${BASE_HOST}`)
-      - traefik.http.routers.transmission.entrypoints=websecure
-      - traefik.http.routers.transmission.tls.certresolver=myresolver
+      - traefik.http.routers.qbittorrent.rule=Host(`torrent.${BASE_HOST}`)
+      - traefik.http.routers.qbittorrent.entrypoints=websecure
+      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
     networks:
       - front
 

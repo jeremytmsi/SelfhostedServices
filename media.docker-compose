@@ -14,8 +14,28 @@ services:
       - traefik.enable=true
       - traefik.http.routers.jellyfin.rule=Host(`media.${BASE_HOST}`)
 
+  torrent:
+    image: lscr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ=Europe/Paris
+    volumes:
+      - /mnt/Data/Downloads/Series:/downloads/series
+      - /mnt/Data/Downloads/Animes:/downloads/animes
+      - /mnt/Data/Downloads/Films:/downloads/films
+      - torrent_config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`downloads.${BASE_HOST}`)
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+    networks:
+      - front
+
 networks:
   front:
 
 volumes:
   jellyfin_config:
+  torrent_config:

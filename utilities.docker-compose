@@ -15,5 +15,21 @@ services:
     networks:
       - front
 
+  vault:
+    image: vaultwarden/server
+    container_name: vault
+    volumes:
+      - vault_data:/data
+    environment:
+      - DOMAIN=http://vault.${BASE_HOST}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)
+    networks:
+      - front
+
 networks:
   front:
+
+volumes:
+  vault_data:

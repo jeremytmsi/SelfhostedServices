@@ -1,0 +1,21 @@
+services:
+  media:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    hostname: media
+    volumes:
+      - /mnt/Data/Media/Series:/mnt/Series
+      - /mnt/Data/Media/Films:/mnt/Films
+      - /mnt/Data/Media/Animes:/mnt/Animes
+      - jellyfin_config:/config
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.rule=Host(`media.${BASE_HOST}`)
+
+networks:
+  front:
+
+volumes:
+  jellyfin_config:

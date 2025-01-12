@@ -3,5 +3,17 @@ providers:
     defaultRule: "Host(`{{trimPrefix '/' .Name}}.docker.localhost`)"
     exposedByDefault: false
 
+entryPoints:
+  websecure:
+    address: :443
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      dnschallenge:
+        provider: cloudflare
+      email: jeremy.tomasi.pro@gmail.com
+      storage: /letsencrypt/acme.json
+
 api:
   insecure: true

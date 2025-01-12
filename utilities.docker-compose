@@ -12,6 +12,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`)
+      - traefik.http.routers.traefik.entrypoints=websecure
+      - traefik.http.routers.traefik.tls.certresolver=myresolver
     networks:
       - front
 
@@ -25,6 +27,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)
+      - traefik.http.routers.vault.entrypoints=websecure
+      - traefik.http.routers.vault.tls.certresolver=myresolver
     networks:
       - front
 

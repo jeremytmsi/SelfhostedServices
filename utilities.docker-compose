@@ -26,7 +26,7 @@ services:
     volumes:
       - vault_data:/data
     environment:
-      - DOMAIN=http://vault.${BASE_HOST}
+      - DOMAIN=https://vault.${BASE_HOST}
     labels:
       - traefik.enable=true
       - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)

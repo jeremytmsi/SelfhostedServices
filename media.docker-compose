@@ -33,9 +33,29 @@ services:
     networks:
       - front
 
+  sonarr:
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /mnt/Data/Media/Series:/series
+      - /mnt/Data/Downloads/Series:/mnt/Downloads/Series
+      - /mnt/Data/Media/Animes:/animes
+      - /mnt/Data/Downloads/Animes:/mnt/Downloads/Animes
+      - sonarr_config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`series.${BASE_HOST}`)
+    networks:
+      - front
+
 networks:
   front:
 
 volumes:
   jellyfin_config:
   torrent_config:
+  sonarr_config:

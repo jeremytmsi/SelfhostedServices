@@ -88,6 +88,21 @@ services:
     networks:
       - front
 
+  jellyseerr:
+    image: fallenbagel/jellyseerr
+    container_name: jellyseerr
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - jellyseerr_config:/app/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.rule=Host(`requests.${BASE_HOST}`)
+      - traefik.http.routers.jellyseerr.entrypoints=websecure
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
+    networks:
+      - front
+
 networks:
   front:
 
@@ -96,3 +111,5 @@ volumes:
   torrent_config:
   sonarr_config:
   radarr_config:
+  prowlarr_config:
+  jellyseerr_config:

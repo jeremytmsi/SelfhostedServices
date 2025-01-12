@@ -52,6 +52,25 @@ services:
     networks:
       - front
 
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - /mnt/Data/Media/Films:/films
+      - /mnt/Data/Downloads/Films:/mnt/Downloads/Films
+      - radarr_config:/config
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.rule=Host(`films.${BASE_HOST}`)
+      - traefik.http.routers.radarr.entrypoints=websecure
+      - traefik.http.routers.radarr.tls.certresolver=myresolver
+    networks:
+      - front
+
 networks:
   front:
 
@@ -59,3 +78,4 @@ volumes:
   jellyfin_config:
   torrent_config:
   sonarr_config:
+  radarr_config:

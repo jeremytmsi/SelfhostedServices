@@ -13,7 +13,7 @@ certificatesResolvers:
       dnschallenge:
         provider: cloudflare
       email: jeremy.tomasi.pro@gmail.com
-      storage: /letsencrypt/acme.json
+      storage: acme.json
 
 api:
   insecure: true

@@ -4,6 +4,7 @@ services:
     container_name: nextcloud
     volumes:
       - /mnt/Data/Drive:/var/www/html/data
+      - nextcloud_config:/var/www/html/config
     labels:
       - traefik.enable=true
       - traefik.http.routers.nextcloud.rule=Host(`drive.${BASE_HOST}`)
@@ -14,3 +15,6 @@ services:
 
 networks:
   front:
+
+volumes:
+  nextcloud_config:

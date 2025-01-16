@@ -109,30 +109,6 @@ services:
     networks:
       - front
 
-  plex:
-    image: linuxserver/plex
-    container_name: plex
-    hostname: media2
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Paris
-      - PLEX_CLAIM=${PLEX_CLAIM}
-      - VERSION=docker
-    volumes:
-      - /mnt/Data/Media/Series:/series
-      - /mnt/Data/Media/Films:/films
-      - /mnt/Data/Media/Animes:/animes
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.plex.rule=Host(`plex.${BASE_HOST}`)
-      - traefik.http.routers.plex.entrypoints=websecure
-      - traefik.http.routers.plex.tls.certresolver=myresolver
-      - traefik.http.services.plex.loadbalancer.server.port=32400
-      - traefik.docker.network=front
-    networks:
-      - front
-
 networks:
   front:
 

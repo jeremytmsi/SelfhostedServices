@@ -3,7 +3,7 @@ services:
     image: nextcloud
     container_name: nextcloud
     volumes:
-      - /mnt/Data/Drive:/var/www/html/data
+      - /mnt/Data/Drive/Nextcloud:/var/www/html/data
       - nextcloud_config:/var/www/html/config
     labels:
       - traefik.enable=true

@@ -5,6 +5,9 @@ services:
     volumes:
       - /mnt/Data/Drive/Nextcloud:/var/www/html/data
       - nextcloud_config:/var/www/html/config
+    environment:
+      - PGID=1000
+      - PUID=1000
     labels:
       - traefik.enable=true
       - traefik.http.routers.nextcloud.rule=Host(`drive.${BASE_HOST}`)
@@ -22,6 +25,9 @@ services:
     volumes:
       - /mnt/Data/Drive/Photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=1000
+      - PGID=1000
     labels:
       - traefik.enable=true
       - traefik.http.routers.immich.rule=Host(`photos.${BASE_HOST}`)

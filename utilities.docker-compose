@@ -1,0 +1,19 @@
+services:
+  traefik:
+    image: traefik
+    container_name: traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
+    ports:
+      - 8080:8080
+      - 80:80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`)
+      - traefik.http.routers.traefik.entrypoints=web
+    networks:
+      - front
+
+networks:
+  front:

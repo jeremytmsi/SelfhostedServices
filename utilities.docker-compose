@@ -6,14 +6,38 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
     ports:
-      - 8080:8080
-      - 80:80
+      - 443:443
+    environment:
+      - OVH_ENDPOINT=ovh-eu
+      - OVH_APPLICATION_KEY=${OVH_APPLICATION_KEY}
+      - OVH_APPLICATION_SECRET=${OVH_APPLICATION_SECRET}
+      - OVH_CONSUMER_KEY=${OVH_CONSUMER_KEY}
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`)
-      - traefik.http.routers.traefik.entrypoints=web
+      - traefik.http.routers.traefik.entrypoints=websecure
+      - traefik.http.routers.traefik.tls.certresolver=myresolver
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
+    networks:
+      - front
+
+  vault:
+    image: vaultwarden/server
+    container_name: vault
+    volumes:
+      - vault_data:/data
+    environment:
+      - DOMAIN=https://vault.${BASE_HOST}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)
+      - traefik.http.routers.vault.entrypoints=websecure
+      - traefik.http.routers.vault.tls.certresolver=myresolver
     networks:
       - front
 
 networks:
   front:
+
+volumes:
+  vault_data:

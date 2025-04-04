@@ -82,14 +82,9 @@ services:
     container_name: adguard
     ports:
       - 3000:3000
+      - 8080:8080
       #- 53:53/udp
       #- 53:53/tcp
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.adguard.rule=Host(`adguard.${LAN_BASE_HOST}`)
-      - traefik.http.routers.adguard.entrypoints=web
-      - traefik.http.routers.adguard.tls.certresolver=myresolver
-      - traefik.http.services.adguard.loadbalancer.server.port=8080
 
 networks:
   front:

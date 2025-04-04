@@ -24,6 +24,20 @@ services:
     networks:
       - front
 
+  sonarr:
+    image: lscr.io/linuxserver/sonarr
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    ports:
+      - 8989:8989
+    volumes:
+      - sonarr_config:/config
+    networks:
+      - front
+
 volumes:
   jellyfin_config:
   qbittorrent_config:

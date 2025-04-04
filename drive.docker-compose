@@ -3,15 +3,18 @@ services:
     image: nextcloud
     container_name: nextcloud
     volumes:
-      - /mnt/Data/Drive/Nextcloud:/var/www/html/data
+      #- /mnt/Data/Drive/Nextcloud:/var/www/html/data
       - nextcloud_config:/var/www/html/config
     environment:
       - PGID=1000
       - PUID=1000
-    ports:
-      - 8083:80
     networks:
       - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`drive.${BASE_HOST}`) || Host(`drive.${LAN_BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
   immich:
     image: ghcr.io/immich-app/immich-server:release

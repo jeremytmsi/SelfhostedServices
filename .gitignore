@@ -5,3 +5,4 @@ config/authelia/config/notification.txt
 config/authelia/config/users.yml
 config/sonarr/*
 config/radarr/*
+config/prowlarr/*

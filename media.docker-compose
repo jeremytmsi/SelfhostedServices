@@ -61,14 +61,15 @@ services:
       - PGID=1000
       - TZ=Europe/Paris
     volumes:
-      - radarr_config:/config
+      - ./config/radarr:/config
     networks:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.radarr.rule=Host(`films.${LAN_BASE_HOST}`)
-      - traefik.http.routers.radarr.entrypoints=web
+      - traefik.http.routers.radarr.rule=Host(`films.${LAN_BASE_HOST}`) || Host(`films.${BASE_HOST}`)
+      - traefik.http.routers.radarr.entrypoints=websecure
       - traefik.http.routers.radarr.tls.certresolver=myresolver
+      - traefik.http.routers.radarr.middlewares=authelia@docker
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr

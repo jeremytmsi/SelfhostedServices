@@ -1,4 +1,21 @@
 services:
+
+  traefik:
+    image: traefik
+    container_name: traefik
+    ports:
+      - 443:443
+    networks:
+      - front
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.rule=Host(`traefik.docker.localhost`)
+      - traefik.http.routers.traefik.entrypoints=websecure
+      - traefik.http.routers.traefik.tls.certresolver=myresolver
+      - traefik.http.services.traefik.loadbalancer.server.port=8080
   vault:
     image: vaultwarden/server
     container_name: vault

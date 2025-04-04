@@ -35,6 +35,15 @@ services:
     networks:
       - front
 
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguard
+    ports:
+      - 3000:3000
+      - 53:53/udp
+      - 53:53/tcp
+      - 8081:80
+
 networks:
   front:
 

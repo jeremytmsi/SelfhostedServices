@@ -12,9 +12,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`drive.${BASE_HOST}`) || Host(`drive.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr.entrypoints=websecure
-      - traefik.http.routers.sonarr.tls.certresolver=myresolver
+      - traefik.http.routers.nextcloud.rule=Host(`drive.${BASE_HOST}`) || Host(`drive.${LAN_BASE_HOST}`)
+      - traefik.http.routers.nextcloud.entrypoints=websecure
+      - traefik.http.routers.nextcloud.tls.certresolver=myresolver
 
   immich:
     image: ghcr.io/immich-app/immich-server:release
@@ -25,13 +25,16 @@ services:
     volumes:
       #- /mnt/Data/Drive/Photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
-    ports:
-      - 2283:2283
     environment:
       - PUID=1000
       - PGID=1000
     networks:
       - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.immich.rule=Host(`photos.${BASE_HOST}`) || Host(`photos.${LAN_BASE_HOST}`)
+      - traefik.http.routers.immich.entrypoints=websecure
+      - traefik.http.routers.immich.tls.certresolver=myresolver
 
   redis:
     image: redis

@@ -63,9 +63,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`films.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr.entrypoints=web
-      - traefik.http.routers.sonarr.tls.certresolver=myresolver
+      - traefik.http.routers.radarr.rule=Host(`films.${LAN_BASE_HOST}`)
+      - traefik.http.routers.radarr.entrypoints=web
+      - traefik.http.routers.radarr.tls.certresolver=myresolver
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr
@@ -78,9 +78,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`indexers.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr.entrypoints=web
-      - traefik.http.routers.sonarr.tls.certresolver=myresolver
+      - traefik.http.routers.prowlarr.rule=Host(`indexers.${LAN_BASE_HOST}`)
+      - traefik.http.routers.prowlarr.entrypoints=web
+      - traefik.http.routers.prowlarr.tls.certresolver=myresolver
 
   jellyseerr:
     image: fallenbagel/jellyseerr
@@ -93,9 +93,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`requests.${BASE_HOST}`) || Host(`requests.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr.entrypoints=websecure
-      - traefik.http.routers.sonarr.tls.certresolver=myresolver
+      - traefik.http.routers.jellyseerr.rule=Host(`requests.${BASE_HOST}`) || Host(`requests.${LAN_BASE_HOST}`)
+      - traefik.http.routers.jellyseerr.entrypoints=websecure
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
 
 volumes:
   jellyfin_config:

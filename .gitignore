@@ -6,3 +6,4 @@ config/authelia/config/users.yml
 config/sonarr/*
 config/radarr/*
 config/prowlarr/*
+config/traefik/letsencrypt

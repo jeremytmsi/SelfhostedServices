@@ -15,7 +15,7 @@ certificatesResolvers:
       dnschallenge:
         provider: ovh
       email: jeremy.tomasi.pro@gmail.com
-      storage: acme.json
+      storage: /letsencrypt/acme.json
 
 api:
   insecure: true

@@ -1,0 +1,53 @@
+theme: 'dark'
+
+server:
+  address: 'tcp4://:9091'
+
+identity_validation:
+  reset_password:
+    jwt_lifespan: '5 minutes'
+
+password_policy:
+  zxcvbn:
+    enabled: true
+    min_score: 4
+
+webauthn:
+  disable: false
+  enable_passkey_login: false
+
+authentication_backend:
+  file:
+    path: '/config/users.yml'
+    password:
+      algorithm: 'argon2'
+      argon2:
+        variant: 'argon2id'
+        iterations: 3
+        memory: 65535
+        parallelism: 4
+        key_length: 32
+        salt_length: 16
+
+access_control:
+  default_policy: 'one_factor'
+
+session:
+  name: 'authelia_session'
+  cookies:
+    - domain: '127.0.0.1'
+      authelia_url: 'https://127.0.0.1:9091'
+
+regulation:
+  max_retries: 4
+  find_time: 120
+  ban_time: 300
+
+storage:
+  local:
+    path: '/config/db.sqlite3'
+
+notifier:
+  disable_startup_check: false
+  filesystem:
+    filename: '/config/notification.txt'

@@ -46,7 +46,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.sonarr.rule=Host(`series.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.entrypoints=web
       - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
 
@@ -64,7 +64,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.sonarr.rule=Host(`films.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.entrypoints=web
       - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
   prowlarr:
@@ -74,10 +74,13 @@ services:
       - TZ=Europe/Paris
     volumes:
       - prowlarr_config:/config
-    ports:
-      - 9696:9696
     networks:
       - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`indexers.${LAN_BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=web
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
   jellyseerr:
     image: fallenbagel/jellyseerr

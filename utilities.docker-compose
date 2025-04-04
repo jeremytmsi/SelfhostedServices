@@ -4,6 +4,7 @@ services:
     image: traefik
     container_name: traefik
     ports:
+      - 80:80
       - 443:443
     networks:
       - front
@@ -69,7 +70,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.adguard.rule=Host(`adguard.${LAN_BASE_HOST}`)
-      - traefik.http.routers.adguard.entrypoints=websecure
+      - traefik.http.routers.adguard.entrypoints=web
       - traefik.http.routers.adguard.tls.certresolver=myresolver
       - traefik.http.services.adguard.loadbalancer.server.port=8080
 

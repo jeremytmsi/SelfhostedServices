@@ -3,3 +3,4 @@ config/authelia/secrets/
 config/authelia/config/db.sqlite3
 config/authelia/config/notification.txt
 config/authelia/config/users.yml
+config/sonarr/*

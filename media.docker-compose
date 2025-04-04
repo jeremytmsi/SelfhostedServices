@@ -42,14 +42,15 @@ services:
       - PGID=1000
       - TZ=Europe/Paris
     volumes:
-      - sonarr_config:/config
+      - ./config/sonarr:/config
     networks:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`series.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr.entrypoints=web
+      - traefik.http.routers.sonarr.rule=Host(`series.${LAN_BASE_HOST}`) || Host(`series.${BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=websecure
       - traefik.http.routers.sonarr.tls.certresolver=myresolver
+      - traefik.http.routers.sonarr.middlewares=authelia@docker
 
 
   radarr:

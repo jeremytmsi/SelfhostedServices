@@ -2,6 +2,16 @@ theme: 'dark'
 
 server:
   address: 'tcp4://:9091'
+  endpoints:
+    authz:
+      forward-auth:
+        implementation: 'ForwardAuth'
+        authn_strategies:
+          - name: 'CookieSession'
+      auth-request:
+        implementation: 'ForwardAuth'
+        authn_strategies:
+          - name: 'CookieSession'
 
 identity_validation:
   reset_password:

@@ -13,6 +13,7 @@ services:
       - traefik.http.routers.jellyfin.rule=Host(`media.${BASE_HOST}`) || Host(`media.${LAN_BASE_HOST}`)
       - traefik.http.routers.jellyfin.entrypoints=websecure
       - traefik.http.routers.jellyfin.tls.certresolver=myresolver
+      - traefik.http.routers.jellyfin.middlewares=authelia@docker
 
   torrent:
     image: lscr.io/linuxserver/qbittorrent

@@ -89,10 +89,13 @@ services:
       - TZ=Europe/Paris
     volumes:
       - jellyseerr_config:/app/config
-    ports:
-      - 5055:5055
     networks:
       - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`requests.${BASE_HOST}`) || Host(`requests.${LAN_BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
 volumes:
   jellyfin_config:

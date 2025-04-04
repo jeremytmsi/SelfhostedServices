@@ -11,6 +11,12 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./config/traefik/letsencrypt:/letsencrypt
+    environment:
+      - OVH_ENDPOINT=ovh-eu
+      - OVH_APPLICATION_KEY=${OVH_APPLICATION_KEY}
+      - OVH_APPLICATION_SECRET=${OVH_APPLICATION_SECRET}
+      - OVH_CONSUMER_KEY=${OVH_CONSUMER_KEY}
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`) || Host(`traefik.${LAN_BASE_HOST}`)
@@ -69,6 +75,7 @@ services:
       - traefik.http.routers.portainer.entrypoints=websecure
       - traefik.http.routers.portainer.tls.certresolver=myresolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000
+      - traefik.http.routers.portainer.middlewares=authelia@docker
 
   adguard:
     image: adguard/adguardhome

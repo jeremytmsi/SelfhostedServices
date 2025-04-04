@@ -21,12 +21,16 @@ services:
       - PGID=0
       - PUID=0
       - TZ=Europe/Paris
-    ports:
-      - 8080:8080
     volumes:
       - qbittorrent_config:/config
     networks:
       - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`downloads.${BASE_HOST}`) || Host(`downloads.${LAN_BASE_HOST}`)
+      - traefik.http.routers.qbittorrent.entrypoints=websecure
+      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
 
   sonarr:
     image: lscr.io/linuxserver/sonarr

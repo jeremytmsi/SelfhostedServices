@@ -30,13 +30,25 @@ authentication_backend:
         salt_length: 16
 
 access_control:
-  default_policy: 'one_factor'
+  default_policy: 'deny'
+  rules:
+    - domain: '*.jeremytomasi.fr'
+      policy: 'two_factor'
+    - domain: '*.jeremytomasi.lan'
+      policy: 'one_factor'
+    - domain: '*.docker.localhost'
+      policy: 'one_factor'
+
 
 session:
   name: 'authelia_session'
   cookies:
-    - domain: '127.0.0.1'
-      authelia_url: 'https://127.0.0.1:9091'
+    - domain: docker.localhost
+      authelia_url: 'https://auth.docker.localhost'
+    - domain: jeremytomasi.fr
+      authelia_url: 'https://auth.jeremytomasi.fr'
+    - domain: jeremytomasi.lan
+      authelia_url: 'https://auth.jeremytomasi.lan'
 
 regulation:
   max_retries: 4

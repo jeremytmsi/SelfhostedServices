@@ -19,12 +19,15 @@ services:
   vault:
     image: vaultwarden/server
     container_name: vault
-    ports:
-      - 8080:80
     volumes:
       - vault_data:/data
     networks:
       - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vault.rule=Host(`vault.docker.localhost`)
+      - traefik.http.routers.vault.entrypoints=websecure
+      - traefik.http.routers.vault.tls.certresolver=myresolver
 
   authelia:
     image: authelia/authelia

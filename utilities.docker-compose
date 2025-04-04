@@ -12,7 +12,7 @@ services:
       - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`)
+      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`) || Host(`traefik.${LAN_BASE_HOST}`)
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.tls.certresolver=myresolver
       - traefik.http.services.traefik.loadbalancer.server.port=8080
@@ -25,7 +25,7 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.vault.rule=Host(`vault.docker.localhost`)
+      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`) || Host(`vault.${LAN_BASE_HOST}`)
       - traefik.http.routers.vault.entrypoints=websecure
       - traefik.http.routers.vault.tls.certresolver=myresolver
 
@@ -54,7 +54,7 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.portainer.rule=Host(`portainer.docker.localhost`)
+      - traefik.http.routers.portainer.rule=Host(`portainer.${BASE_HOST}`) || Host(`portainer.${LAN_BASE_HOST}`)
       - traefik.http.routers.portainer.entrypoints=websecure
       - traefik.http.routers.portainer.tls.certresolver=myresolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000

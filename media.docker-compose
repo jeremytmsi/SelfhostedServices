@@ -45,7 +45,7 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=Host(`sonarr.${LAN_BASE_HOST}`)
+      - traefik.http.routers.sonarr.rule=Host(`series.${LAN_BASE_HOST}`)
       - traefik.http.routers.sonarr.entrypoints=websecure
       - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
@@ -57,12 +57,15 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Paris
-    ports:
-      - 7878:7878
     volumes:
       - radarr_config:/config
     networks:
       - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=Host(`films.${LAN_BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr

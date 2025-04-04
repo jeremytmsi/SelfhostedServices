@@ -38,9 +38,26 @@ services:
     networks:
       - front
 
+  radarr:
+    image: lscr.io/linuxserver/radarr
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    ports:
+      - 7878:7878
+    volumes:
+      - radarr_config:/config
+    networks:
+      - front
+
+
 volumes:
   jellyfin_config:
   qbittorrent_config:
+  sonarr_config:
+  radarr_config:
 
 networks:
   front:

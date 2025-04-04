@@ -12,7 +12,7 @@ services:
       - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.docker.localhost`)
+      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`)
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.tls.certresolver=myresolver
       - traefik.http.services.traefik.loadbalancer.server.port=8080
@@ -64,9 +64,14 @@ services:
     container_name: adguard
     ports:
       - 3000:3000
-      - 53:53/udp
-      - 53:53/tcp
-      - 8081:80
+      #- 53:53/udp
+      #- 53:53/tcp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.adguard.rule=Host(`adguard.${LAN_BASE_HOST}`)
+      - traefik.http.routers.adguard.entrypoints=websecure
+      - traefik.http.routers.adguard.tls.certresolver=myresolver
+      - traefik.http.services.adguard.loadbalancer.server.port=8080
 
 networks:
   front:

@@ -10,8 +10,23 @@ services:
     ports:
       - 8096:8096
 
+  torrent:
+    image: lscr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ=Europe/Paris
+    ports:
+      - 8080:8080
+    volumes:
+      - qbittorrent_config:/config
+    networks:
+      - front
+
 volumes:
   jellyfin_config:
+  qbittorrent_config:
 
 networks:
   front:

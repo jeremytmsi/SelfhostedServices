@@ -64,12 +64,25 @@ services:
     networks:
       - front
 
+  jellyseerr:
+    image: fallenbagel/jellyseerr
+    container_name: jellyseerr
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - jellyseerr_config:/app/config
+    ports:
+      - 5055:5055
+    networks:
+      - front
+
 volumes:
   jellyfin_config:
   qbittorrent_config:
   sonarr_config:
   radarr_config:
   prowlarr_config:
+  jellyseerr_config:
 
 networks:
   front:

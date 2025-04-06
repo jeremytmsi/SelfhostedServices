@@ -33,6 +33,27 @@ services:
       - traefik.http.routers.portainer.tls.certresolver=myresolver
       - traefik.http.services.portainer.loadbalancer.server.port=9000
 
+  adguard:
+    image: adguard/adguardhome
+    container_name: adguard
+    ports:
+      - 3000:3000
+      - 53:53/udp
+      - 53:53/tcp
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.adguard.rule=Host(`adguard.${LAN_BASE_HOST}`)
+      - traefik.http.routers.adguard.entrypoints=websecure
+      - traefik.http.routers.adguard.tls.certresolver=myresolver
+      - traefik.http.services.adguard.loadbalancer.server.port=8080
+    networks:
+      - front
+    volumes:
+      - adguard_config:/opt/adguardhome/conf
+
 
 networks:
   front:
+
+volumes:
+  adguard_config:

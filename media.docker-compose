@@ -49,6 +49,7 @@ services:
       - traefik.http.routers.sonarr.rule=Host(`series.${LAN_BASE_HOST}`)
       - traefik.http.routers.sonarr.entrypoints=websecure
       - traefik.http.routers.sonarr.tls.certresolver=myresolver
+      - traefik.http.routers.sonarr.middlewares=authelia@docker
 
   radarr:
     image: lscr.io/linuxserver/radarr

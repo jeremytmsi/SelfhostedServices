@@ -83,6 +83,7 @@ services:
       - traefik.http.routers.prowlarr.rule=Host(`indexers.${LAN_BASE_HOST}`)
       - traefik.http.routers.prowlarr.entrypoints=websecure
       - traefik.http.routers.prowlarr.tls.certresolver=myresolver
+      - traefik.http.routers.prowlarr.middlewares=authelia@docker
 
   jellyseerr:
     image: fallenbagel/jellyseerr

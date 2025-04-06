@@ -67,6 +67,7 @@ services:
       - traefik.http.routers.radarr.rule=Host(`films.${LAN_BASE_HOST}`)
       - traefik.http.routers.radarr.entrypoints=websecure
       - traefik.http.routers.radarr.tls.certresolver=myresolver
+      - traefik.http.routers.radarr.middlewares=authelia@docker
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr

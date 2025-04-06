@@ -67,6 +67,21 @@ services:
       - traefik.http.routers.radarr.entrypoints=websecure
       - traefik.http.routers.radarr.tls.certresolver=myresolver
 
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr
+    container_name: prowlarr
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - ./config/prowlarr:/config
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prowlarr.rule=Host(`indexers.${LAN_BASE_HOST}`)
+      - traefik.http.routers.prowlarr.entrypoints=websecure
+      - traefik.http.routers.prowlarr.tls.certresolver=myresolver
+
 networks:
   front:
 

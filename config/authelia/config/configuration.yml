@@ -1,0 +1,75 @@
+theme: 'dark'
+
+server:
+  address: 'tcp4://:9091'
+  endpoints:
+    authz:
+      forward-auth:
+        implementation: 'ForwardAuth'
+        authn_strategies:
+          - name: 'CookieSession'
+      auth-request:
+        implementation: 'ForwardAuth'
+        authn_strategies:
+          - name: 'CookieSession'
+
+identity_validation:
+  reset_password:
+    jwt_lifespan: '5 minutes'
+
+password_policy:
+  zxcvbn:
+    enabled: true
+    min_score: 4
+
+webauthn:
+  disable: false
+  enable_passkey_login: false
+
+authentication_backend:
+  file:
+    path: '/config/users.yml'
+    password:
+      algorithm: 'argon2'
+      argon2:
+        variant: 'argon2id'
+        iterations: 3
+        memory: 65535
+        parallelism: 4
+        key_length: 32
+        salt_length: 16
+
+access_control:
+  default_policy: 'deny'
+  rules:
+    - domain: '*.jeremytomasi.fr'
+      policy: 'two_factor'
+    - domain: '*.jeremytomasi.lan'
+      policy: 'one_factor'
+    - domain: '*.docker.localhost'
+      policy: 'one_factor'
+
+
+session:
+  name: 'authelia_session'
+  cookies:
+    - domain: docker.localhost
+      authelia_url: 'https://auth.docker.localhost'
+    - domain: jeremytomasi.fr
+      authelia_url: 'https://auth.jeremytomasi.fr'
+    - domain: jeremytomasi.lan
+      authelia_url: 'https://auth.jeremytomasi.lan'
+
+regulation:
+  max_retries: 4
+  find_time: 120
+  ban_time: 300
+
+storage:
+  local:
+    path: '/config/db.sqlite3'
+
+notifier:
+  disable_startup_check: false
+  filesystem:
+    filename: '/config/notification.txt'

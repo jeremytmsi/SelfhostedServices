@@ -3,3 +3,7 @@ config/traefik/letsencrypt
 config/sonarr/*
 config/radarr/*
 config/prowlarr/*
+config/authelia/secrets/*
+config/authelia/config/users.yml
+config/authelia/config/db.sqlite3
+config/authelia/config/notification.txt

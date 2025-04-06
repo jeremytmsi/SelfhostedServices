@@ -64,6 +64,31 @@ services:
       - traefik.http.routers.vault.entrypoints=websecure
       - traefik.http.routers.vault.tls.certresolver=myresolver
 
+  authelia:
+    image: authelia/authelia
+    container_name: authelia
+    volumes:
+      - ./config/authelia/config:/config
+      - ./config/authelia/secrets:/secrets:ro
+    environment:
+      - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/secrets/jwt_secret.txt
+      - AUTHELIA_SESSION_SECRET_FILE=/secrets/session_secret.txt
+      - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/secrets/storage_encryption_key.txt
+      - LAN_BASE_HOST=${LAN_BASE_HOST}
+      - BASE_HOST=${BASE_HOST}
+      - TZ=Europe/Paris
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.authelia.rule=Host(`auth.${BASE_HOST}`) || Host(`auth.${LAN_BASE_HOST}`)
+      - traefik.http.routers.authelia.entrypoints=websecure
+      - traefik.http.routers.authelia.tls.certresolver=myresolver
+      - traefik.http.middlewares.authelia.forwardAuth.address=http://authelia:9091/api/authz/forward-auth
+      - traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true
+      - traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email
+
+
 
 networks:
   front:

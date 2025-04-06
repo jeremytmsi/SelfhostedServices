@@ -82,9 +82,25 @@ services:
       - traefik.http.routers.prowlarr.entrypoints=websecure
       - traefik.http.routers.prowlarr.tls.certresolver=myresolver
 
+  jellyseerr:
+    image: fallenbagel/jellyseerr
+    container_name: jellyseerr
+    environment:
+      - TZ=Europe/Paris
+    volumes:
+      - jellyseerr_config:/app/config
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyseerr.rule=Host(`requests.${BASE_HOST}`) || Host(`requests.${LAN_BASE_HOST}`)
+      - traefik.http.routers.jellyseerr.entrypoints=websecure
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
+
 networks:
   front:
 
 volumes:
   jellyfin_config:
   qbittorrent_config:
+  jellyseerr_config:

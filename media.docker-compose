@@ -23,7 +23,7 @@ services:
       - TZ=Europe/Paris
     volumes:
       - qbittorrent_config:/config
-      - /mnt/Data/Downloads:/downloads
+      #- /mnt/Data/Downloads:/downloads
     networks:
       - front
     labels:
@@ -32,6 +32,7 @@ services:
       - traefik.http.routers.qbittorrent.entrypoints=websecure
       - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
       - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+      - traefik.http.routers.qbittorrent.middlewares=authelia@docker
 
   sonarr:
     image: lscr.io/linuxserver/sonarr

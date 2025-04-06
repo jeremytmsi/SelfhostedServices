@@ -14,8 +14,28 @@ services:
       - traefik.http.routers.jellyfin.entrypoints=websecure
       - traefik.http.routers.jellyfin.tls.certresolver=myresolver
 
+  torrent:
+    image: lscr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    environment:
+      - PGID=0
+      - PUID=0
+      - TZ=Europe/Paris
+    volumes:
+      - qbittorrent_config:/config
+      - /mnt/Data/Downloads:/downloads
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.qbittorrent.rule=Host(`downloads.${BASE_HOST}`) || Host(`downloads.${LAN_BASE_HOST}`)
+      - traefik.http.routers.qbittorrent.entrypoints=websecure
+      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+
 networks:
   front:
 
 volumes:
   jellyfin_config:
+  qbittorrent_config:

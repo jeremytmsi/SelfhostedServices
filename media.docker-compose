@@ -1,0 +1,21 @@
+services:
+  media:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    hostname: media
+    volumes:
+      - jellyfin_config:/config
+      - /mnt/Data/Media:/mnt/Media
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jellyfin.rule=Host(`media.${BASE_HOST}`) || Host(`media.${LAN_BASE_HOST}`)
+      - traefik.http.routers.jellyfin.entrypoints=websecure
+      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
+
+networks:
+  front:
+
+volumes:
+  jellyfin_config:

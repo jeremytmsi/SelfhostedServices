@@ -17,6 +17,7 @@ services:
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.tls.certresolver=myresolver
       - traefik.http.routers.traefik.service=api@internal
+      - traefik.http.routers.traefik.middlewares=authelia@docker
       - traefik.http.services.traefik.loadbalancer.server.port=8080
 
   portainer:

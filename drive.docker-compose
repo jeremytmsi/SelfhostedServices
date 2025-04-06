@@ -16,6 +16,42 @@ services:
       - traefik.http.routers.nextcloud.entrypoints=websecure
       - traefik.http.routers.nextcloud.tls.certresolver=myresolver
 
+  immich:
+    image: ghcr.io/immich-app/immich-server:release
+    container_name: immich
+    depends_on:
+      - redis
+      - database
+    volumes:
+      - /mnt/Data/Drive/Photos:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.immich.rule=Host(`photos.${BASE_HOST}`) || Host(`photos.${LAN_BASE_HOST}`)
+      - traefik.http.routers.immich.entrypoints=websecure
+      - traefik.http.routers.immich.tls.certresolver=myresolver
+
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - front
+
+  database:
+    image: tensorchord/pgvecto-rs:pg14-v0.2.0
+    container_name: postgres
+    networks:
+      - front
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=immich
+
 networks:
   front:
 

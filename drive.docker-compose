@@ -1,0 +1,23 @@
+services:
+  drive:
+    image: nextcloud
+    container_name: nextcloud
+    volumes:
+      - /mnt/Data/Drive/Nextcloud:/var/www/html/data
+      - nextcloud_config:/var/www/html/config
+    environment:
+      - PGID=1000
+      - PUID=1000
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.nextcloud.rule=Host(`drive.${BASE_HOST}`) || Host(`drive.${LAN_BASE_HOST}`)
+      - traefik.http.routers.nextcloud.entrypoints=websecure
+      - traefik.http.routers.nextcloud.tls.certresolver=myresolver
+
+networks:
+  front:
+
+volumes:
+  nextcloud_config:

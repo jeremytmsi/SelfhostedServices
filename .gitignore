@@ -1,3 +1,4 @@
 config/traefik/letsencrypt
 .env
 config/sonarr/*
+config/radarr/*

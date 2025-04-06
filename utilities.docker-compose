@@ -51,9 +51,23 @@ services:
     volumes:
       - adguard_config:/opt/adguardhome/conf
 
+  vault:
+    image: vaultwarden/server
+    container_name: vault
+    volumes:
+      - vault_data:/data
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`) || Host(`vault.${LAN_BASE_HOST}`)
+      - traefik.http.routers.vault.entrypoints=websecure
+      - traefik.http.routers.vault.tls.certresolver=myresolver
+
 
 networks:
   front:
 
 volumes:
   adguard_config:
+  vault_data:

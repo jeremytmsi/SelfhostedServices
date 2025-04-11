@@ -23,11 +23,7 @@ services:
   adguard:
     image: adguard/adguardhome
     container_name: adguard
-    ports:
-      - 3000:3000
-      - 53:53/udp
-      - 53:53/tcp
-      - 8080:8080
+    network_mode: host
     volumes:
       - adguard_config:/opt/adguardhome/conf
 

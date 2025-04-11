@@ -41,7 +41,7 @@ services:
       - PGID=1000
       - TZ=Europe/Paris
     volumes:
-      - ./config/sonarr:/config
+      - sonarr_config:/config
     networks:
       - front
     labels:
@@ -58,7 +58,7 @@ services:
       - PGID=1000
       - TZ=Europe/Paris
     volumes:
-      - ./config/radarr:/config
+      - radarr_config:/config
     networks:
       - front
     labels:
@@ -73,7 +73,7 @@ services:
     environment:
       - TZ=Europe/Paris
     volumes:
-      - ./config/prowlarr:/config
+      - prowlarr_config:/config
     networks:
       - front
     labels:
@@ -104,3 +104,6 @@ volumes:
   jellyfin_config:
   qbittorrent_config:
   jellyseerr_config:
+  sonarr_config:
+  radarr_config:
+  prowlarr_config:

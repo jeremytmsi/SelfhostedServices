@@ -9,16 +9,25 @@ services:
       - front
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml
-      - ./config/traefik/letsencrypt:/letsencrypt
+      - traefik_certificates:/letsencrypt
     labels:
       - traefik.enable=true
       - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`) || Host(`traefik.${LAN_BASE_HOST}`)
       - traefik.http.routers.traefik.entrypoints=websecure
       - traefik.http.routers.traefik.tls.certresolver=myresolver
       - traefik.http.routers.traefik.service=api@internal
-      - traefik.http.routers.traefik.middlewares=authelia@docker
+      #- traefik.http.routers.traefik.middlewares=authelia@docker
       - traefik.http.services.traefik.loadbalancer.server.port=8080
+    command:
+      - --providers.docker=true
+      - --providers.docker.defaultRule=Host(`{{trimPrefix '/' .Name}}.docker.localhost`)
+      - --providers.docker.exposedByDefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesResolvers.myresolver.acme.dnschallenge.provider=ovh
+      - --certificatesResolvers.myresolver.acme.email=jeremy.tomasi.pro@gmail.com
+      - --certificatesResolvers.myresolver.acme.storage=/letsencrypt/acme.json
+      - --api.insecure=true
 
   adguard:
     image: adguard/adguardhome
@@ -72,4 +81,5 @@ networks:
 
 volumes:
   adguard_config:
+  traefik_certificates:
   vault_data:

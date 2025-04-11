@@ -20,20 +20,6 @@ services:
       - traefik.http.routers.traefik.middlewares=authelia@docker
       - traefik.http.services.traefik.loadbalancer.server.port=8080
 
-  portainer:
-    image: portainer/portainer-ce
-    container_name: portainer
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - front
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.portainer.rule=Host(`portainer.${BASE_HOST}`) || Host(`portainer.${LAN_BASE_HOST}`)
-      - traefik.http.routers.portainer.entrypoints=websecure
-      - traefik.http.routers.portainer.tls.certresolver=myresolver
-      - traefik.http.services.portainer.loadbalancer.server.port=9000
-
   adguard:
     image: adguard/adguardhome
     container_name: adguard
@@ -41,14 +27,7 @@ services:
       - 3000:3000
       - 53:53/udp
       - 53:53/tcp
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.adguard.rule=Host(`adguard.${LAN_BASE_HOST}`)
-      - traefik.http.routers.adguard.entrypoints=websecure
-      - traefik.http.routers.adguard.tls.certresolver=myresolver
-      - traefik.http.services.adguard.loadbalancer.server.port=80
-    networks:
-      - front
+      - 8080:8080
     volumes:
       - adguard_config:/opt/adguardhome/conf
 
@@ -75,8 +54,6 @@ services:
       - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/secrets/jwt_secret.txt
       - AUTHELIA_SESSION_SECRET_FILE=/secrets/session_secret.txt
       - AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/secrets/storage_encryption_key.txt
-      - LAN_BASE_HOST=${LAN_BASE_HOST}
-      - BASE_HOST=${BASE_HOST}
       - TZ=Europe/Paris
     networks:
       - front

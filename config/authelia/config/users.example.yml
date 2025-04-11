@@ -1,8 +1,0 @@
-users:
-  authelia:
-    displayname: 'Authelia Test'
-    password: '$argon2id$v=19$m=65536,t=3,p=4$NfqoCmItiJYjJjOXFj0Lfw$EfBJeMKLG7Y/obSlZWWowraGLKwTeeggl5xVtBhGUyY'
-    email: 'authelia@authelia.com'
-    groups:
-      - 'admin'
-      - 'dev'

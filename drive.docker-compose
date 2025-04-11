@@ -8,8 +8,6 @@ services:
     environment:
       - PGID=1000
       - PUID=1000
-    networks:
-      - front
     labels:
       - traefik.enable=true
       - traefik.http.routers.nextcloud.rule=Host(`drive.${BASE_HOST}`) || Host(`drive.${LAN_BASE_HOST}`)
@@ -28,8 +26,6 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-    networks:
-      - front
     labels:
       - traefik.enable=true
       - traefik.http.routers.immich.rule=Host(`photos.${BASE_HOST}`) || Host(`photos.${LAN_BASE_HOST}`)
@@ -45,8 +41,6 @@ services:
   database:
     image: tensorchord/pgvecto-rs:pg14-v0.2.0
     container_name: postgres
-    networks:
-      - front
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres

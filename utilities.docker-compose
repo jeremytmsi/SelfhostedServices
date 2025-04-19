@@ -63,6 +63,15 @@ services:
       - traefik.http.routers.vault.entrypoints=websecure
       - traefik.http.routers.vault.tls.certresolver=myresolver
 
+  cloudflare:
+    image: cloudflare/cloudflared
+    container_name: cloudflare
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    networks:
+      - front
+
 networks:
   front:
     external: true

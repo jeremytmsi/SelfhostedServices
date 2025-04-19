@@ -12,11 +12,17 @@ services:
       - traefik_certificates:/letsencrypt
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik.rule=Host(`traefik.${BASE_HOST}`) || Host(`traefik.${LAN_BASE_HOST}`)
-      - traefik.http.routers.traefik.entrypoints=websecure
-      - traefik.http.routers.traefik.tls.certresolver=myresolver
-      - traefik.http.routers.traefik.service=api@internal
-      - traefik.http.services.traefik.loadbalancer.server.port=8080
+      - traefik.http.routers.traefik-externe.rule=Host(`traefik.${BASE_HOST}`)
+      - traefik.http.routers.traefik-externe.entrypoints=websecure
+      - traefik.http.routers.traefik-externe.tls.certresolver=myresolver
+      - traefik.http.routers.traefik-externe.service=api@internal
+      - traefik.http.services.traefik-externe.loadbalancer.server.port=8080
+
+      - traefik.http.routers.traefik-interne.rule=Host(`traefik.${LAN_BASE_HOST}`)
+      - traefik.http.routers.traefik-interne.entrypoints=web
+      - traefik.http.routers.traefik-interne.service=api@internal
+      - traefik.http.services.traefik-interne.loadbalancer.server.port=8080
+
     command:
       - --providers.docker=true
       - --providers.docker.defaultRule=Host(`{{trimPrefix '/' .Name}}.docker.localhost`)
@@ -31,14 +37,18 @@ services:
   adguard:
     image: adguard/adguardhome
     container_name: adguard
-    network_mode: host
     ports:
-      - 3000:3000
-      - 8080:8080
       - 53:53/udp
       - 53:53/tcp
     volumes:
       - adguard_config:/opt/adguardhome/conf
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.adguard.rule=Host(`adguard.${LAN_BASE_HOST}`)
+      - traefik.http.routers.adguard.entrypoints=web
+      - traefik.http.services.adguard.loadbalancer.server.port=8080
+    networks:
+      - front
 
   vault:
     image: vaultwarden/server
@@ -55,6 +65,7 @@ services:
 
 networks:
   front:
+    external: true
 
 volumes:
   adguard_config:

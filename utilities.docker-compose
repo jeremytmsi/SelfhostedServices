@@ -59,7 +59,7 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`) || Host(`vault.${LAN_BASE_HOST}`)
+      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)
       - traefik.http.routers.vault.entrypoints=websecure
       - traefik.http.routers.vault.tls.certresolver=myresolver
 

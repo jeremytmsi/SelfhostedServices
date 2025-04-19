@@ -10,9 +10,13 @@ services:
       - PUID=1000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.nextcloud.rule=Host(`drive.${BASE_HOST}`) || Host(`drive.${LAN_BASE_HOST}`)
-      - traefik.http.routers.nextcloud.entrypoints=websecure
-      - traefik.http.routers.nextcloud.tls.certresolver=myresolver
+      - traefik.http.routers.nextcloud-externe.rule=Host(`drive.${BASE_HOST}`)
+      - traefik.http.routers.nextcloud-externe.entrypoints=websecure
+      - traefik.http.routers.nextcloud-externe.tls.certresolver=myresolver
+      - traefik.http.routers.nextcloud-interne.rule=Host(`drive.${LAN_BASE_HOST}`)
+      - traefik.http.routers.nextcloud-interne.entrypoints=web
+    networks:
+      - front
 
   immich:
     image: ghcr.io/immich-app/immich-server:release
@@ -28,9 +32,13 @@ services:
       - PGID=1000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.immich.rule=Host(`photos.${BASE_HOST}`) || Host(`photos.${LAN_BASE_HOST}`)
-      - traefik.http.routers.immich.entrypoints=websecure
-      - traefik.http.routers.immich.tls.certresolver=myresolver
+      - traefik.http.routers.immich-externe.rule=Host(`photos.${BASE_HOST}`)
+      - traefik.http.routers.immich-externe.entrypoints=websecure
+      - traefik.http.routers.immich-externe.tls.certresolver=myresolver
+      - traefik.http.routers.immich-interne.rule=Host(`photos.${LAN_BASE_HOST}`)
+      - traefik.http.routers.immich-interne.entrypoints=web
+    networks:
+      - front
 
   redis:
     image: redis
@@ -45,9 +53,12 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_DB=immich
+    networks:
+      - front
 
 networks:
   front:
+    external: true
 
 volumes:
   nextcloud_config:

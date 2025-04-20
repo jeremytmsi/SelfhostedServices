@@ -5,7 +5,7 @@ services:
       hostname: mail.jeremytomasi.fr
       networks:
         - front
-      environments:
+      environment:
         - SSL_TYPE=letsencrypt
       ports:
         - 25:25

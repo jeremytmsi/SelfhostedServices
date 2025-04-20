@@ -5,6 +5,8 @@ services:
       hostname: mail.jeremytomasi.fr
       networks:
         - front
+      environments:
+        - SSL_TYPE=letsencrypt
       ports:
         - 25:25
         - 143:143
@@ -16,6 +18,7 @@ services:
         - mail-state:/var/mail-state/
         - mail-logs:/var/log/mail
         - mail-config:/tmp/docker-mailserver
+        - mail-cert:/etc/letsencrypt:ro
         - /etc/localtime:/etc/localtime:ro
       restart: unless-stopped
       healthcheck:

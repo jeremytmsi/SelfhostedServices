@@ -35,3 +35,4 @@ volumes:
   mail-state:
   mail-logs:
   mail-config:
+  mail-cert:

@@ -1,0 +1,34 @@
+services:
+  mail:
+      image: ghcr.io/docker-mailserver/docker-mailserver
+      container_name: mailserver
+      hostname: mail.jeremytomasi.fr
+      networks:
+        - front
+      ports:
+        - 25:25
+        - 143:143
+        - 465:465
+        - 587:587
+        - 993:993
+      volumes:
+        - mail-data:/var/mail/
+        - mail-state:/var/mail-state/
+        - mail-logs:/var/log/mail
+        - mail-config:/tmp/docker-mailserver
+        - /etc/localtime:/etc/localtime:ro
+      restart: unless-stopped
+      healthcheck:
+        test: "ss --listening --tcp | grep -P 'LISTEN.+:smtp' || exit 1"
+        timeout: 3s
+        retries: 0
+
+networks:
+  front:
+    external: true
+
+volumes:
+  mail-data:
+  mail-state:
+  mail-logs:
+  mail-config:

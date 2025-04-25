@@ -105,6 +105,19 @@ services:
       - traefik.http.routers.jellyseerr-interne.rule=Host(`requests.${LAN_BASE_HOST}`)
       - traefik.http.routers.jellyseerr-interne.entrypoints=web
 
+  lidarr:
+    image: linuxserver/lidarr
+    container_name: lidarr
+    volumes:
+      - lidarr_config:/config
+      - /mnt/Data:/mnt
+    networks:
+      - front
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidarr.rule=Host(`music.${LAN_BASE_HOST}`)
+      - traefik.http.routers.lidarr.entrypoints=web
+
 networks:
   front:
     external: true
@@ -116,3 +129,4 @@ volumes:
   sonarr_config:
   radarr_config:
   prowlarr_config:
+  lidarr_config:

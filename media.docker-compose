@@ -148,3 +148,4 @@ volumes:
   radarr_config:
   prowlarr_config:
   lidarr_config:
+  navidrome_data:

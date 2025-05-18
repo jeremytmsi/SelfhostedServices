@@ -130,10 +130,10 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.navidrome-externe.rule=Host(`music.${BASE_HOST}`)
+      - traefik.http.routers.navidrome-externe.rule=Host(`musicplayer.${BASE_HOST}`)
       - traefik.http.routers.navidrome-externe.entrypoints=websecure
       - traefik.http.routers.navidrome-externe.tls.certresolver=myresolver
-      - traefik.http.routers.navidrome-interne.rule=Host(`music.${LAN_BASE_HOST}`)
+      - traefik.http.routers.navidrome-interne.rule=Host(`musicplayer.${LAN_BASE_HOST}`)
       - traefik.http.routers.navidrome-interne.entrypoints=web
 
 networks:

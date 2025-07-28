@@ -3,7 +3,7 @@ services:
     image: nextcloud
     container_name: nextcloud
     volumes:
-      - /mnt/Data/Drive/Nextcloud:/var/www/html/data
+      - /mnt/Data/Nextcloud:/var/www/html/data
       - nextcloud_config:/var/www/html/config
     environment:
       - PGID=1000
@@ -25,7 +25,7 @@ services:
       - redis
       - database
     volumes:
-      - /mnt/Data/Drive/Photos:/usr/src/app/upload
+      - /mnt/Data/Photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     environment:
       - PUID=1000

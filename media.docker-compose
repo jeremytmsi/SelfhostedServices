@@ -12,6 +12,8 @@ services:
       - traefik.enable=true
       - traefik.http.routers.jellyfin-interne.rule=Host(`media.${LAN_BASE_HOST}`)
       - traefik.http.routers.jellyfin-interne.entrypoints=web
+    devices:
+      - /dev/dri:/dev/dri
 
   torrent:
     image: lscr.io/linuxserver/qbittorrent

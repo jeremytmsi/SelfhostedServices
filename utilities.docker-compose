@@ -12,7 +12,7 @@ services:
       - traefik_certificates:/letsencrypt
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik-interne.rule=Host(`traefik.${LAN_BASE_HOST}`)
+      - traefik.http.routers.traefik-interne.rule=Host(`dashboard.${LAN_BASE_HOST}`)
       - traefik.http.routers.traefik-interne.entrypoints=web
       - traefik.http.routers.traefik-interne.service=api@internal
       - traefik.http.services.traefik-interne.loadbalancer.server.port=8080

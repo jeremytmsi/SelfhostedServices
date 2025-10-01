@@ -12,12 +12,6 @@ services:
       - traefik_certificates:/letsencrypt
     labels:
       - traefik.enable=true
-      - traefik.http.routers.traefik-externe.rule=Host(`traefik.${BASE_HOST}`)
-      - traefik.http.routers.traefik-externe.entrypoints=websecure
-      - traefik.http.routers.traefik-externe.tls.certresolver=myresolver
-      - traefik.http.routers.traefik-externe.service=api@internal
-      - traefik.http.services.traefik-externe.loadbalancer.server.port=8080
-
       - traefik.http.routers.traefik-interne.rule=Host(`traefik.${LAN_BASE_HOST}`)
       - traefik.http.routers.traefik-interne.entrypoints=web
       - traefik.http.routers.traefik-interne.service=api@internal
@@ -59,18 +53,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.vault.rule=Host(`vault.${BASE_HOST}`)
+      - traefik.http.routers.vault.rule=Host(`vault.${LAN_BASE_HOST}`)
       - traefik.http.routers.vault.entrypoints=websecure
       - traefik.http.routers.vault.tls.certresolver=myresolver
-
-  cloudflare:
-    image: cloudflare/cloudflared
-    container_name: cloudflare
-    command: tunnel run
-    environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-    networks:
-      - front
 
 networks:
   front:

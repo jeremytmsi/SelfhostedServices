@@ -10,9 +10,6 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyfin-externe.rule=Host(`media.${BASE_HOST}`)
-      - traefik.http.routers.jellyfin-externe.entrypoints=websecure
-      - traefik.http.routers.jellyfin-externe.tls.certresolver=myresolver
       - traefik.http.routers.jellyfin-interne.rule=Host(`media.${LAN_BASE_HOST}`)
       - traefik.http.routers.jellyfin-interne.entrypoints=web
 
@@ -30,11 +27,6 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.qbittorrent-externe.rule=Host(`downloads.${BASE_HOST}`)
-      - traefik.http.routers.qbittorrent-externe.entrypoints=websecure
-      - traefik.http.routers.qbittorrent-externe.tls.certresolver=myresolver
-      - traefik.http.routers.qbittorrent-externe.service=qbittorrent-externe
-      - traefik.http.services.qbittorrent-externe.loadbalancer.server.port=8080
       - traefik.http.routers.qbittorrent-interne.rule=Host(`downloads.${LAN_BASE_HOST}`)
       - traefik.http.routers.qbittorrent-interne.entrypoints=web
       - traefik.http.routers.qbittorrent-interne.service=qbittorrent-interne
@@ -99,24 +91,8 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyseerr-externe.rule=Host(`requests.${BASE_HOST}`)
-      - traefik.http.routers.jellyseerr-externe.entrypoints=websecure
-      - traefik.http.routers.jellyseerr-externe.tls.certresolver=myresolver
       - traefik.http.routers.jellyseerr-interne.rule=Host(`requests.${LAN_BASE_HOST}`)
       - traefik.http.routers.jellyseerr-interne.entrypoints=web
-
-  lidarr:
-    image: linuxserver/lidarr
-    container_name: lidarr
-    volumes:
-      - lidarr_config:/config
-      - /mnt/Data:/mnt
-    networks:
-      - front
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.lidarr.rule=Host(`music.${LAN_BASE_HOST}`)
-      - traefik.http.routers.lidarr.entrypoints=web
 
   navidrome:
     image: deluan/navidrome
@@ -130,9 +106,6 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.navidrome-externe.rule=Host(`musicplayer.${BASE_HOST}`)
-      - traefik.http.routers.navidrome-externe.entrypoints=websecure
-      - traefik.http.routers.navidrome-externe.tls.certresolver=myresolver
       - traefik.http.routers.navidrome-interne.rule=Host(`musicplayer.${LAN_BASE_HOST}`)
       - traefik.http.routers.navidrome-interne.entrypoints=web
 

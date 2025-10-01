@@ -10,9 +10,6 @@ services:
       - PUID=1000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.nextcloud-externe.rule=Host(`drive.${BASE_HOST}`)
-      - traefik.http.routers.nextcloud-externe.entrypoints=websecure
-      - traefik.http.routers.nextcloud-externe.tls.certresolver=myresolver
       - traefik.http.routers.nextcloud-interne.rule=Host(`drive.${LAN_BASE_HOST}`)
       - traefik.http.routers.nextcloud-interne.entrypoints=web
     networks:
@@ -32,9 +29,6 @@ services:
       - PGID=1000
     labels:
       - traefik.enable=true
-      - traefik.http.routers.immich-externe.rule=Host(`photos.${BASE_HOST}`)
-      - traefik.http.routers.immich-externe.entrypoints=websecure
-      - traefik.http.routers.immich-externe.tls.certresolver=myresolver
       - traefik.http.routers.immich-interne.rule=Host(`photos.${LAN_BASE_HOST}`)
       - traefik.http.routers.immich-interne.entrypoints=web
     networks:

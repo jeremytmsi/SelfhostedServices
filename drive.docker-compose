@@ -31,7 +31,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.immich-interne.rule=Host(`photos.${LAN_BASE_HOST}`)
-      - traefik.http.routers.immich-interne.entrypoints=web
+      - traefik.http.routers.immich-interne.entrypoints=websecure
+      - traefik.http.routers.immich.tls.certresolver=myresolver
     networks:
       - front
 

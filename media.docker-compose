@@ -3,6 +3,8 @@ services:
     image: jellyfin/jellyfin
     container_name: jellyfin
     hostname: media
+    ports:
+      - ${SERVER_IP}:8096:8096
     volumes:
       - jellyfin_config:/config
       - /mnt/Data/Media:/mnt/Media
@@ -10,8 +12,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyfin-interne.rule=Host(`media.${LAN_BASE_HOST}`)
-      - traefik.http.routers.jellyfin-interne.entrypoints=web
+      - traefik.http.routers.jellyfin.rule=Host(`media.${LAN_BASE_HOST}`)
+      - traefik.http.routers.jellyfin.entrypoints=websecure
+      - traefik.http.routers.jellyfin.tls.certresolver=myresolver
     devices:
       - /dev/dri:/dev/dri
 
@@ -29,10 +32,11 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.qbittorrent-interne.rule=Host(`downloads.${LAN_BASE_HOST}`)
-      - traefik.http.routers.qbittorrent-interne.entrypoints=web
-      - traefik.http.routers.qbittorrent-interne.service=qbittorrent-interne
-      - traefik.http.services.qbittorrent-interne.loadbalancer.server.port=8080
+      - traefik.http.routers.qbittorrent.rule=Host(`downloads.${LAN_BASE_HOST}`)
+      - traefik.http.routers.qbittorrent.entrypoints=websecure
+      - traefik.http.routers.qbittorrent.service=qbittorrent-interne
+      - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+      - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
 
   sonarr:
     image: lscr.io/linuxserver/sonarr
@@ -48,8 +52,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.sonarr-interne.rule=Host(`series.${LAN_BASE_HOST}`)
-      - traefik.http.routers.sonarr-interne.entrypoints=web
+      - traefik.http.routers.sonarr.rule=Host(`series.${LAN_BASE_HOST}`)
+      - traefik.http.routers.sonarr.entrypoints=websecure
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
 
   radarr:
     image: lscr.io/linuxserver/radarr
@@ -65,8 +70,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.radarr-interne.rule=Host(`films.${LAN_BASE_HOST}`)
-      - traefik.http.routers.radarr-interne.entrypoints=web
+      - traefik.http.routers.radarr.rule=Host(`films.${LAN_BASE_HOST}`)
+      - traefik.http.routers.radarr.entrypoints=websecure
+      - traefik.http.routers.radarr.tls.certresolver=myresolver
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr
@@ -79,8 +85,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prowlarr-interne.rule=Host(`indexers.${LAN_BASE_HOST}`)
-      - traefik.http.routers.prowlarr-interne.entrypoints=web
+      - traefik.http.routers.prowlarr.rule=Host(`indexers.${LAN_BASE_HOST}`)
+      - traefik.http.routers.prowlarr.entrypoints=websecure
+      - traefik.http.routers.prowlarr.tls.certresolver=myresolver
 
   jellyseerr:
     image: fallenbagel/jellyseerr
@@ -93,8 +100,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.jellyseerr-interne.rule=Host(`requests.${LAN_BASE_HOST}`)
-      - traefik.http.routers.jellyseerr-interne.entrypoints=web
+      - traefik.http.routers.jellyseerr=Host(`requests.${LAN_BASE_HOST}`)
+      - traefik.http.routers.jellyseerr.entrypoints=websecure
+      - traefik.http.routers.jellyseerr.tls.certresolver=myresolver
 
   navidrome:
     image: deluan/navidrome
@@ -108,8 +116,9 @@ services:
       - front
     labels:
       - traefik.enable=true
-      - traefik.http.routers.navidrome-interne.rule=Host(`musicplayer.${LAN_BASE_HOST}`)
-      - traefik.http.routers.navidrome-interne.entrypoints=web
+      - traefik.http.routers.navidrome.rule=Host(`musicplayer.${LAN_BASE_HOST}`)
+      - traefik.http.routers.navidrome.entrypoints=websecure
+      - traefik.http.routers.navidrome.tls.certresolver=myresolver
 
 networks:
   front:

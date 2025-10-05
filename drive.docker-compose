@@ -11,7 +11,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.nextcloud-interne.rule=Host(`drive.${LAN_BASE_HOST}`)
-      - traefik.http.routers.nextcloud-interne.entrypoints=web
+      - traefik.http.routers.nextcloud-interne.entrypoints=websecure
+      - traefik.http.routers.nextcloud-interne.tls.certresolver=myresolver
     networks:
       - front
 

@@ -34,7 +34,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.qbittorrent.rule=Host(`downloads.${LAN_BASE_HOST}`)
       - traefik.http.routers.qbittorrent.entrypoints=websecure
-      - traefik.http.routers.qbittorrent.service=qbittorrent-interne
+      - traefik.http.routers.qbittorrent.service=qbittorrent
       - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
       - traefik.http.routers.qbittorrent.tls.certresolver=myresolver
 
